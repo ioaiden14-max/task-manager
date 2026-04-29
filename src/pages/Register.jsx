@@ -6,14 +6,17 @@ function Register() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (username.trim() === "" || password.trim() === "") {
+    if (!username || !password) {
       alert("Please fill in all fields");
       return;
     }
+
+    setLoading(true);
 
     try {
       await axios.post(`${API}/register`, {
@@ -26,7 +29,9 @@ function Register() {
       setPassword("");
     } catch (error) {
       console.error("Register error:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Registration failed");
+      alert("Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,7 +58,9 @@ function Register() {
 
         <br />
 
-        <button type="submit">Register</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
       </form>
     </div>
   );

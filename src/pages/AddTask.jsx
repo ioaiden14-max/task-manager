@@ -4,6 +4,7 @@ function AddTask({ addTask }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,6 +14,8 @@ function AddTask({ addTask }) {
       return;
     }
 
+    setLoading(true);
+
     try {
       await addTask({
         title,
@@ -20,15 +23,16 @@ function AddTask({ addTask }) {
         completed: false,
       });
 
-      setMessage("Task added successfully"); // ✅ success message
+      setMessage("Task added successfully");
 
       setTitle("");
       setDescription("");
 
-      // Optional: auto-hide message after 3 seconds
       setTimeout(() => setMessage(""), 3000);
     } catch (error) {
       setMessage("Failed to add task");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,12 +40,10 @@ function AddTask({ addTask }) {
     <div className="container">
       <h2>Add Task</h2>
 
-      {/* MESSAGE DISPLAY */}
       {message && (
         <p
           style={{
-            color: message.includes("successfully") ? "green" : "red",
-            fontWeight: "bold",
+            color: message.includes("success") ? "green" : "red",
           }}
         >
           {message}
@@ -67,7 +69,9 @@ function AddTask({ addTask }) {
 
         <br />
 
-        <button type="submit">Add Task</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Adding task..." : "Add Task"}
+        </button>
       </form>
     </div>
   );

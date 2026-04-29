@@ -7,6 +7,7 @@ function Login({ setToken, setUsername }) {
 
   const [usernameInput, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,14 +19,13 @@ function Login({ setToken, setUsername }) {
       return;
     }
 
+    setLoading(true);
+
     try {
       const response = await axios.post(`${API}/login`, {
         username: usernameInput,
         password,
       });
-
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("username", response.data.username);
@@ -33,11 +33,12 @@ function Login({ setToken, setUsername }) {
       setToken(response.data.token);
       setUsername(response.data.username);
 
-      alert("Login successful");
       navigate("/list");
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +65,9 @@ function Login({ setToken, setUsername }) {
 
         <br />
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
     </div>
   );

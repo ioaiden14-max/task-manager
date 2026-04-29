@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
+import Petals from "./components/Petals";
+
 import Home from "./pages/Home";
 import List from "./pages/List";
 import AddTask from "./pages/AddTask";
@@ -18,13 +20,11 @@ function App() {
   const [username, setUsername] = useState(localStorage.getItem("username"));
   const [loading, setLoading] = useState(false);
 
-  const getAuthHeaders = () => {
-    return {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    };
-  };
+  const getAuthHeaders = () => ({
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -81,7 +81,9 @@ function App() {
         getAuthHeaders()
       );
 
-      setTasks(tasks.map((task) => (task.id === id ? response.data : task)));
+      setTasks(tasks.map((task) =>
+        task.id === id ? response.data : task
+      ));
     } catch (error) {
       console.error("Error updating task:", error.response?.data || error.message);
     }
@@ -89,44 +91,48 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar
-        token={token}
-        setToken={setToken}
-        username={username}
-        setUsername={setUsername}
-      />
+      <>
+        <Petals />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-
-        <Route
-          path="/login"
-          element={<Login setToken={setToken} setUsername={setUsername} />}
+        <Navbar
+          token={token}
+          setToken={setToken}
+          username={username}
+          setUsername={setUsername}
         />
 
-        <Route path="/register" element={<Register />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
 
-        <Route
-          path="/list"
-          element={
-            loading ? (
-              <div className="container">
-                <h2>Loading tasks...</h2>
-              </div>
-            ) : (
-              <List
-                tasks={tasks}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-              />
-            )
-          }
-        />
+          <Route
+            path="/login"
+            element={<Login setToken={setToken} setUsername={setUsername} />}
+          />
 
-        <Route path="/add" element={<AddTask addTask={addTask} />} />
-        <Route path="/details/:id" element={<Details tasks={tasks} />} />
-      </Routes>
+          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/list"
+            element={
+              loading ? (
+                <div className="container">
+                  <h2>Loading tasks...</h2>
+                </div>
+              ) : (
+                <List
+                  tasks={tasks}
+                  deleteTask={deleteTask}
+                  updateTask={updateTask}
+                />
+              )
+            }
+          />
+
+          <Route path="/add" element={<AddTask addTask={addTask} />} />
+          <Route path="/details/:id" element={<Details tasks={tasks} />} />
+        </Routes>
+      </>
     </BrowserRouter>
   );
 }

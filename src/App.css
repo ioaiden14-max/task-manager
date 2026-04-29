@@ -1,0 +1,92 @@
+/* ===== GLOBAL STYLING ===== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffe4ec, #ffd6e7, #ffc1d9);
+  color: #8b1c3d;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  background: rgba(255, 240, 245, 0.85);
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(176, 48, 96, 0.15);
+  backdrop-filter: blur(6px);
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  background: linear-gradient(90deg, #ffc1d9, #ffb6c1);
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  border-bottom: 2px solid #ff99aa;
+}
+
+nav a {
+  color: #8b1c3d;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #5c0f2b;
+}
+
+/* ===== INPUTS ===== */
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ffb6c1;
+  background-color: #fff5f8;
+}
+
+/* ===== BUTTONS ===== */
+button {
+  background: linear-gradient(135deg, #ffb6c1, #ff99aa);
+  color: #5c0f2b;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #ff99aa, #ff7f9f);
+  transform: scale(1.05);
+}
+
+/* ===== SUCCESS / ERROR TEXT ===== */
+p {
+  margin-top: 10px;
+}
+
+p.success {
+  color: #b03060;
+}
+
+p.error {
+  color: #8b1c3d;
+}
+.navbar {
+  background: linear-gradient(90deg, #ffc1d9, #ffb6c1);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ff99aa;
+}
+
+.username-display {
+  color: #8b1c3d;
+  font-weight: bold;
+}
